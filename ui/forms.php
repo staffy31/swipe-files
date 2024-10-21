@@ -32,35 +32,13 @@
       <!-- header section -->
       <?php
       require "../php/header.php";
-      createHeaderDash('home', 'Tables', 'Table Tools');
+      createHeaderDash('home', 'Forms', 'Form element Tools');
       ?>
       <!-- header section end -->
 
       <!-- form content -->
       <div class="row">
-        <?php function createSection($icon, $location, $title, $description)
-        { ?>
-          <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2" style="padding: 10px;">
-            <div class="dashboard-stats" style="padding: 30px 15px;" onclick="location.href=<?= '\'' . $location . '\'' ?>">
-              <div class="text-center">
-                <!-- <span class="h1"><i class="fa fa-<? $icon ?> p-2"></i></span> -->
-                <div class="h2"><?= $title ?></div>
-                <div class="h6"><?= $description ?></div>
-              </div>
-            </div>
-          </div>
-        <?php
-        }
 
-        createSection('', '../menu/housing.php', 'Side Menu', 'sample menu for reports');
-        createSection('', '#', 'Table 1', 'with randomly searching');
-        createSection('', '#', 'Table 2', 'search by column ');
-        createSection('', '#', 'Table 3', 'simple invoice');
-        createSection('', '#', '', '');
-        createSection('', '#', '', '');
-        createSection('', '#', '', '');
-        createSection('', '#', '', '');
-        ?>
       </div>
 
     </div>

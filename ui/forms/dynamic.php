@@ -38,11 +38,29 @@
 
       <!-- form content -->
       <div class="row">
+        <div class="col-md-6 m-3 shadow">
+          <h3>Select option dynamicaly</h3>
+          <label for="country">Country: </label>
+          <select class="form-control" id="country" onchange="loadCities()">
+            <option value="">Select Country</option>
+          </select>
 
+          <label for="city">City: </label>
+          <select class="form-control" id="city" onchange="loadDistricts()">
+            <option value="">Select City</option>
+          </select>
+
+          <label for="district">District: </label>
+          <select class="form-control mb-2" id="district">
+            <option value="">Select District</option>
+          </select>
+        </div>
       </div>
 
     </div>
   </div>
+  <script src="../../js/dynamic-select.js"></script>
+
 </body>
 
 </html>

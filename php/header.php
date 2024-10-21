@@ -20,7 +20,7 @@ function createHeaderDash($icon, $heading, $sub_heading)
   <section class="row content-header">
 
     <div class="header-title col-md-10 d-flex">
-      <div class="col-md-2">
+      <div class="col-md-4">
         <p class="h4 pt-4">
           &emsp;<?= $heading ?>
         </p>
