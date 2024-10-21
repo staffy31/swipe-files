@@ -39,24 +39,32 @@
 
       <!-- form content -->
       <div class="row">
-        <div class="col-md-4">
+        <div class="col-md-5 m-2 shadow">
           <canvas id="insurancePieChart" width="400" height="400"></canvas>
         </div>
-        <div class="col-md-12"></div>
+        <div class="col-md-5 m-2 shadow">
+          <canvas id="insuranceBarChart" width="400" height="400"></canvas>
+        </div>
+        <div class="col-md-5 m-2 shadow">
+          <canvas id="insuranceDoughnutChart" width="800" height="400"></canvas>
+        </div>
+
+        <div class="col-md-12 m-2"></div>
 
         <?php
         // Sample data from the JSON
+
         $data = [
-          ["client_id" => "1", "insurance" => "AtLife"],
-          ["client_id" => "2", "insurance" => "AXA"],
-          ["client_id" => "3", "insurance" => "SunLife"],
-          ["client_id" => "4", "insurance" => "AtLife"],
-          ["client_id" => "5", "insurance" => "AXA"],
-          ["client_id" => "6", "insurance" => "SunLife"],
-          ["client_id" => "7", "insurance" => "AtLife"],
-          ["client_id" => "8", "insurance" => "AXA"],
-          ["client_id" => "9", "insurance" => "SunLife"],
-          ["client_id" => "10", "insurance" => "AtLife"]
+          ["client_id" => "1", "age" => 25, "date" => "2024-01-01","insurance" => "AtLife"],
+          ["client_id" => "2", "age" => 30, "date" => "2024-02-01","insurance" => "AXA"],
+          ["client_id" => "3", "age" => 35, "date" => "2024-03-01","insurance" => "SunLife"],
+          ["client_id" => "4", "age" => 40, "date" => "2024-04-01","insurance" => "AtLife"],
+          ["client_id" => "5", "age" => 45, "date" => "2024-05-01","insurance" => "AXA"],
+          ["client_id" => "6", "age" => 50, "date" => "2024-06-01","insurance" => "SunLife"],
+          ["client_id" => "7", "age" => 55, "date" => "2024-07-01","insurance" => "AtLife"],
+          ["client_id" => "8", "age" => 60, "date" => "2024-08-01","insurance" => "AXA"],
+          ["client_id" => "9", "age" => 65, "date" => "2024-09-01","insurance" => "SunLife"],
+          ["client_id" => "10", "age" => 70, "date" => "2024-10-01","insurance" => "AtLife"]
         ];
 
         // Count the occurrences of each insurance company
@@ -73,6 +81,19 @@
         // Prepare data for JavaScript
         $insurance_labels = json_encode(array_keys($insurance_counts));
         $insurance_values = json_encode(array_values($insurance_counts));
+
+        // Prepare data for Line Chart
+        $dates = [];
+        $ages = [];
+
+        foreach ($data as $entry) {
+          $dates[] = $entry["date"];  // X-axis data (dates)
+          $ages[] = (int)$entry["age"];  // Y-axis data (ages)
+        }
+
+        // Prepare the PHP data for JavaScript
+        $js_dates = json_encode($dates);
+        $js_ages = json_encode($ages);
         ?>
       </div>
     </div>
@@ -123,6 +144,135 @@
         }
       }
     });
+
+    // Create the bar chart
+    var ctxBar = document.getElementById('insuranceBarChart').getContext('2d');
+    var insuranceBarChart = new Chart(ctxBar, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Number of Clients',
+          data: data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        },
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Insurance Distribution - Bar Chart'
+          }
+        }
+      }
+    });
+
+
+    // Create the doughnut chart
+    var ctxDoughnut = document.getElementById('insuranceDoughnutChart').getContext('2d');
+    var insuranceDoughnutChart = new Chart(ctxDoughnut, {
+      type: 'doughnut',
+      data: {
+        labels: labels,
+        datasets: [{
+          label: 'Insurance Distribution',
+          data: data,
+          backgroundColor: [
+            'rgba(255, 99, 132, 0.2)',
+            'rgba(54, 162, 235, 0.2)',
+            'rgba(255, 206, 86, 0.2)',
+            'rgba(75, 192, 192, 0.2)',
+            'rgba(153, 102, 255, 0.2)',
+            'rgba(255, 159, 64, 0.2)'
+          ],
+          borderColor: [
+            'rgba(255, 99, 132, 1)',
+            'rgba(54, 162, 235, 1)',
+            'rgba(255, 206, 86, 1)',
+            'rgba(75, 192, 192, 1)',
+            'rgba(153, 102, 255, 1)',
+            'rgba(255, 159, 64, 1)'
+          ],
+          borderWidth: 1
+        }]
+      },
+      options: {
+        responsive: true,
+        plugins: {
+          legend: {
+            position: 'top',
+          },
+          title: {
+            display: true,
+            text: 'Insurance Distribution - Doughnut Chart'
+          }
+        }
+      }
+    });
+
+    // Create the scatter chart
+    var ctxScatter = document.getElementById('insuranceScatterChart').getContext('2d');
+    var insuranceScatterChart = new Chart(ctxScatter, {
+      type: 'scatter',
+      data: {
+        datasets: [{
+          label: 'Client ID vs Age',
+          data: scatterData,
+          backgroundColor: 'rgba(75, 192, 192, 0.2)',
+          borderColor: 'rgba(75, 192, 192, 1)',
+          borderWidth: 1
+        }]
+      },
+      options: {
+        scales: {
+          x: {
+            type: 'linear',
+            position: 'bottom',
+            title: {
+              display: true,
+              text: 'Client ID'
+            }
+          },
+          y: {
+            title: {
+              display: true,
+              text: 'Age'
+            }
+          }
+        },
+        plugins: {
+          title: {
+            display: true,
+            text: 'Scatter Chart - Age vs Client ID'
+          }
+        }
+      }
+    });
+
   </script>
 </body>
 

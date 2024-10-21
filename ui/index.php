@@ -52,7 +52,9 @@
         <?php
         }
 
-        createSection('', 'dashboard/pie.php', 'Pie chart', 'sample');
+        createSection('', 'dashboard/pie.php', 'Charts 1', 'pie,bar and doughnut');
+        createSection('', 'dashboard/line.php', 'Charts 2', 'Line sample');
+        createSection('', 'dashboard/scatter.php', 'Charts 3', 'Scatter sample');
         createSection('', '#', '', '');
         createSection('', '#', '', '');
         createSection('', '#', '', '');
