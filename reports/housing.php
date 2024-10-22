@@ -26,24 +26,162 @@
 </head>
 
 <body>
-  <?php include "side/sections/sidenav.html"; ?>
+  <?php include "../menu/side/sections/sidenav.html"; ?>
   <div class="container-fluid">
     <div class="container">
       <!-- header section -->
       <?php
       require "../php/header.php";
-      createHeaderDash('home', 'Dashboard', 'Underconstraction');
+      createHeaderDash('home', 'Dashboard', 'Tools available');
       ?>
       <!-- header section end -->
 
       <!-- form content -->
-      <div class="row">
+      <div class="card" style="overflow: auto;">
+        <div class="card-body">
+          <div class="row">
+            <div class="col-md-9">
+              <form action="" method="post">
+                <div class="row ">
+                  <div class="col-md-1 bg-light text-dark p-2">
+                    Period:
+                  </div>
+                  <div class="col-md-2">
+                    <?php
+                    $json_file_path = '../data/revenues.json';
+                    echo '<select class="form-control mx-2" style="width:230px;" name="periode">';
 
+                    if (file_exists($json_file_path)) {
+                      $json_data = file_get_contents($json_file_path);
 
+                      $data = json_decode($json_data, true);
+
+                      if (!empty($data)) {
+                        $periods = array_unique(array_column($data, 'period'));
+
+                        foreach ($periods as $period) {
+                          echo '<option value="' . $period . '">' . $period . '</option>';
+                        }
+                      } else {
+                        echo 'No data found in the JSON file.';
+                      }
+                    } else {
+                      echo 'JSON file not found.';
+                    }
+                    echo '</select>';
+
+                    ?>
+
+                  </div>
+                  <div class="col-md-2 mx-3">
+                    <button class="btn btn-primary" type="submit" name="submit" value="submit">OK</button>
+                  </div>
+                </div>
+              </form>
+            </div>
+            <div class="col-md-12">
+              <table class="text-dark" width="100%" height="194" border="1" cellpadding="0" cellspacing="0">
+                <tr>
+                  <th class="text-center" colspan="17">
+                    <?php if (isset($_POST['periode'])) {
+                      echo $periodz = $_POST['periode'];
+                    } ?>
+                  </th>
+                </tr>
+                <tr>
+                  <?php
+                  cost_header('Assurances', 180, '#FFF');
+                  cost_header('COST FOR CONSULTATION', 50, '#ccc');
+                  cost_header('COST FOR LABORATORY TESTS', 50, '#ccc');
+                  cost_header('COST FOR MEDICAL IMAGING', 50, '#ccc');
+                  cost_header('COST FOR HOSPITALISATION', 50, '#ccc');
+                  cost_header('COST FOR OTHERS CONSUMABLES', 50, '#ccc');
+                  cost_header('COST FOR AMBULANCES ', 50, '#ccc');
+                  cost_header('COST FOR MEDECINES', 50, '#ccc');
+                  cost_header('TOTAL AMOUNT', 50, '#ccc');
+                  cost_header('15% TOTAL AMOUNT', 50, '#ccc');
+                  cost_header('85% TOTAL AMOUNT', 50, '#ccc');
+                  function cost_header($title, $width, $bgcolor)
+                  {
+                    echo '<th bgcolor=' . $bgcolor . ' class="p-2" width="' . $width . '%">' . $title . '</th>';
+                  }
+                  ?>
+                </tr>
+                <tr>
+                  <?php
+                  cost_calculation($data, $periodz, 'PRIVE');
+
+                  ?>
+                </tr>
+                <tr>
+                  <?php
+                  cost_calculation($data, $periodz, 'RTB');
+
+                  ?>
+                </tr>
+                <tr>
+                  <?php
+                  cost_calculation($data, $periodz, 'MM INSU');
+
+                  ?>
+                </tr>
+                <tr>
+                  <?php
+                  cost_calculation($data, $periodz, 'KAIM');
+
+                  ?>
+                </tr>
+              </table>
+            </div>
+          </div>
+        </div>
       </div>
 
     </div>
   </div>
+
+  <?php
+  // Load the JSON file data
+  function load_json_data($file_path)
+  {
+    $json_data = file_get_contents($file_path);
+    return json_decode($json_data, true);  // Convert JSON to associative array
+  }
+
+  function cost_calculation($data, $defperiod, $insu)
+  {
+    echo '<td class="p-2">' . $insu . '</td>';
+    echo '<td class="p-2">' . calculate($data, 'consultation', $defperiod, $insu) . '</td>';
+    echo '<td class="p-2">' . calculate($data, 'laboratoire', $defperiod, $insu) . '</td>';
+    echo '<td class="p-2">' . calculate($data, '', $defperiod, $insu) . '</td>';
+    echo '<td class="p-2">' . calculate($data, 'hospitalisation', $defperiod, $insu) . '</td>';
+    echo '<td class="p-2">' . calculate($data, 'medical', $defperiod, $insu) . '</td>';
+    echo '<td class="p-2">' . calculate($data, 'ambulance', $defperiod, $insu) . '</td>';
+    echo '<td class="p-2">' . calculate($data, 'med', $defperiod, $insu) . '</td>';
+    echo '<td class="p-2">' . calculate($data, '', $defperiod, $insu) . '</td>';
+    echo '<td class="p-2">' . calculate($data, '', $defperiod, $insu) . '</td>';
+    echo '<td class="p-2">' . calculate($data, '', $defperiod, $insu) . '</td>';
+  }
+
+  function calculate($data, $type, $defperiod, $insu)
+  {
+    $totc = 0;
+
+    // Filter the JSON data based on period, insurance, and type (if provided)
+    foreach ($data as $entry) {
+      if ($entry['period'] == $defperiod && $entry['insurance'] == $insu && ($type == '' || $entry['type'] == $type)) {
+        $totc += $entry['quantity'] * $entry['unityp'];
+      }
+    }
+
+    return $totc;
+  }
+
+  // Load the JSON data from the file
+  $data = load_json_data('../data/revenues.json');
+
+  // Call the function for testing
+  ?>
 </body>
 
 </html>
