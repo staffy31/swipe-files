@@ -58,7 +58,7 @@
         createSection('', '#', 'Table 3', 'simple invoice');
         createSection('', '#', '', '');
         createSection('', '#', '', '');
-        createSection('', '#', '', '');
+        createSection('', '../reports/revenues.php', 'Report 1', 'Revenues');
         createSection('', '#', '', '');
         ?>
       </div>
