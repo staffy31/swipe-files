@@ -25,6 +25,20 @@
   </style>
 </head>
 
+<?php
+// Path to the JSON file
+$file = '../../data/data.json';
+
+// Step 1: Check if the file exists and read its content
+if (file_exists($file)) {
+  $json_data = file_get_contents($file);
+  $data = json_decode($json_data, true); // Decode the JSON file to an associative array
+} else {
+  $data = array(); // If the file doesn't exist, initialize an empty array
+}
+
+?>
+
 <body>
   <?php include "../../menu/side/sections/sidenav-dash.html"; ?>
   <div class="container-fluid">
@@ -53,8 +67,31 @@
             <button class="btn btn-info" type="submit">Submit</button>
           </form>
         </div>
-        <div class="col-md-5">
-          <h2 class="text-center">Output</h2>
+        <div class="col-md-5 m-3">
+          <h2 class="text-center">Data from JSON File</h2>
+
+          <?php if (!empty($data)): ?>
+            <table class="table">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Age</th>
+                </tr>
+              </thead>
+              <tbody>
+                <?php foreach ($data as $entry): ?>
+                  <tr>
+                    <td><?php echo htmlspecialchars($entry['name']); ?></td>
+                    <td><?php echo htmlspecialchars($entry['email']); ?></td>
+                    <td><?php echo htmlspecialchars($entry['age']); ?></td>
+                  </tr>
+                <?php endforeach; ?>
+              </tbody>
+            </table>
+          <?php else: ?>
+            <p>No data found in the JSON file.</p>
+          <?php endif; ?>
         </div>
       </div>
 

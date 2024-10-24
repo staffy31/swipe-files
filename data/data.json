@@ -3,5 +3,10 @@
         "name": "Rugarama",
         "email": "admin@admin.com",
         "age": 1980
+    },
+    {
+        "name": "Medisoft",
+        "email": "admin@gmail.com",
+        "age": 1980
     }
 ]
