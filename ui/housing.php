@@ -38,7 +38,23 @@
 
       <!-- form content -->
       <div class="row">
+        <?php function createSection($icon, $location, $title, $description)
+        { ?>
+          <div class="col-xs-12 col-sm-6 col-md-2 col-lg-2" style="padding: 10px;">
+            <div class="dashboard-stats" style="padding: 30px 15px;" onclick="location.href=<?= '\'' . $location . '\'' ?>">
+              <div class="text-center">
+                <!-- <span class="h1"><i class="fa fa-<? $icon ?> p-2"></i></span> -->
+                <div class="h2"><?= $title ?></div>
+                <div class="h6"><?= $description ?></div>
+              </div>
+            </div>
+          </div>
+        <?php
+        }
+        createSection('', '#', '', '');
+        createSection('', '#', '', '');
 
+        ?>
       </div>
 
     </div>
