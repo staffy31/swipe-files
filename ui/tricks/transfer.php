@@ -32,10 +32,10 @@
   // Database connection parameters
   $servername = "localhost";
   $username = "root";
-  $password = "raymond1";
-  $receiver = "gatenga";
+  $password = "";
+  $receiver = ""; //name of database to receive data
 
-  $sender = "gatenganew2";
+  $sender = ""; //name of database to send data
 
   $conn = new mysqli($servername, $username, $password);
   if ($conn->connect_error) {

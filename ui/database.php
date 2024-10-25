@@ -53,6 +53,7 @@
         }
         createSection('', 'tricks/transfer.php', 'Transfert', 'data transfert between 2 databases');
         createSection('', '#', '', '');
+        createSection('', '#', 'Views', 'Create a views into DB with buttons');
         
         ?>
       </div>

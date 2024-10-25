@@ -26,15 +26,13 @@
 </head>
 
 <?php
-// Path to the JSON file
 $file = '../../data/data.json';
 
-// Step 1: Check if the file exists and read its content
 if (file_exists($file)) {
   $json_data = file_get_contents($file);
-  $data = json_decode($json_data, true); // Decode the JSON file to an associative array
+  $data = json_decode($json_data, true);
 } else {
-  $data = array(); // If the file doesn't exist, initialize an empty array
+  $data = array();
 }
 
 ?>
