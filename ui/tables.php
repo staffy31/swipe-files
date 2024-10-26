@@ -56,7 +56,7 @@
         createSection('', '#', 'Table 1', 'with randomly searching');
         createSection('', '#', 'Table 2', 'search by column ');
         createSection('', '#', 'Table 3', 'simple invoice');
-        createSection('', '#', '', '');
+        createSection('', 'forms/weekly.php', 'Table 4', 'IDSR');
         createSection('', '#', '', '');
         createSection('', '../reports/revenues.php', 'Report 1', 'Revenues');
         createSection('', '#', '', '');
